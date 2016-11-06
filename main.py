@@ -1,53 +1,82 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import sys
-import os
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+
+import PyQt4.QtCore as QtCore
+import PyQt4.QtGui as QtGui
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import webbrowser
 import platform
-if  platform.system() == 'Windows':
-	CHROMEDRIVER_PATH = "./chromedriver.exe"
-else:
-	CHROMEDRIVER_PATH = "./chromedriver"
 
-from flask import Flask, request, redirect, url_for
-from werkzeug.utils import secure_filename
-app = Flask(__name__)
+def startWebKit():
+	if  platform.system() == 'Windows':
+	    CHROMEDRIVER_PATH = "./chromedriver.exe"
+	else:
+	    CHROMEDRIVER_PATH = "./chromedriver"
 
-UPLOAD_FOLDER = './uploads'
+	driver = webdriver.Chrome(CHROMEDRIVER_PATH)
+	driver.get("http://www.python.org")
+	assert "Python" in driver.title
+	elem = driver.find_element_by_name("q")
+	elem.clear()
+	elem.send_keys("pycon")
+	elem.send_keys(Keys.RETURN)
+	assert "No results found." not in driver.page_source
+	driver.close() 
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+class MainMenu(QtGui.QWidget):
+	def __init__(self,parent=None):
+		QtGui.QWidget.__init__(self, parent=parent)
+		self.setGeometry(10,10,40,300)
+		button = QtGui.QPushButton('start',self)
+		self.Label = QtGui.QLabel('',self)
+		self.Label.setGeometry(20,20,40,40)
+		self.connect(button,QtCore.SIGNAL('clicked()'),self.changeText)
 
-@app.route("/")
-def hello():
-	# driver = webdriver.Chrome(CHROMEDRIVER_PATH)
-	# driver.get("http://www.python.org")
-	# assert "Python" in driver.title
-	# elem = driver.find_element_by_name("q")
-	# elem.clear()
-	# elem.send_keys("pycon")
-	# elem.send_keys(Keys.RETURN)
-	# assert "No results found." not in driver.page_source
-	# driver.close()
-	return "Hello World!"
+	def changeText(self):
+		startWebKit()
+		self.Label.setText("abcd")
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return "success"
 
-if __name__ == "__main__":
-	webbrowser.open('http://127.0.0.1:5000/')
-	app.run()
+class Example(QMainWindow):
+    def __init__(self):
+        super(Example, self).__init__()
+        self.initUI()
+        
+    def initUI(self):
+              
+        exitGUI=QApplication.style().standardIcon(QStyle.SP_TitleBarCloseButton)
+        exitAction = QAction(exitGUI, '&Exit', self)        
+        exitAction.setShortcut('Ctrl+Q')
+        exitAction.setStatusTip('Exit application')
+        exitAction.triggered.connect(qApp.quit)
+
+        qtInfoGUI=QApplication.style().standardIcon(QStyle.SP_TitleBarMenuButton)
+        qtInfoAction = QAction(qtInfoGUI, '&AboutQt', self)        
+        qtInfoAction.setShortcut('Ctrl+I')
+        qtInfoAction.setStatusTip('Show Qt info')
+        qtInfoAction.triggered.connect(qApp.aboutQt)
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&Info')
+        fileMenu.addAction(qtInfoAction)
+        fileMenu.addAction(exitAction)
+        menubar.setNativeMenuBar(False) #for mac
+
+        main = MainMenu()
+        self.setCentralWidget(main)        
+        self.setGeometry(300, 300, 300, 200)
+        self.setWindowTitle('TwitterAutoRegisterTool')    
+        self.show()
+        # startWebKit()
+        
+def main():
+    app = QApplication(sys.argv)
+    ex = Example()
+    sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    main()   
