@@ -1,5 +1,5 @@
 git pull
 rmdir /s /q dist
 rmdir /s /q build
-copy chromedriver.exe dist¥main
+copy dist¥main¥main.exe main.exe
 pyinstaller main.py --noconsole
