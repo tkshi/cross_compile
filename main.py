@@ -11,72 +11,40 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import platform
 
-def startWebKit():
-	if  platform.system() == 'Windows':
-	    CHROMEDRIVER_PATH = "./chromedriver.exe"
-	else:
-	    CHROMEDRIVER_PATH = "./chromedriver"
-
-	driver = webdriver.Chrome(CHROMEDRIVER_PATH)
-	driver.get("http://www.python.org")
-	assert "Python" in driver.title
-	elem = driver.find_element_by_name("q")
-	elem.clear()
-	elem.send_keys("pycon")
-	elem.send_keys(Keys.RETURN)
-	assert "No results found." not in driver.page_source
-	driver.close() 
-
-class MainMenu(QtGui.QWidget):
-	def __init__(self,parent=None):
-		QtGui.QWidget.__init__(self, parent=parent)
-		self.setGeometry(10,10,40,300)
-		button = QtGui.QPushButton('start',self)
-		self.Label = QtGui.QLabel('',self)
-		self.Label.setGeometry(20,20,40,40)
-		self.connect(button,QtCore.SIGNAL('clicked()'),self.changeText)
-
-	def changeText(self):
-		startWebKit()
-		self.Label.setText("abcd")
 
 
-class Example(QMainWindow):
-    def __init__(self):
-        super(Example, self).__init__()
-        self.initUI()
-        
-    def initUI(self):
-              
-        exitGUI=QApplication.style().standardIcon(QStyle.SP_TitleBarCloseButton)
-        exitAction = QAction(exitGUI, '&Exit', self)        
-        exitAction.setShortcut('Ctrl+Q')
-        exitAction.setStatusTip('Exit application')
-        exitAction.triggered.connect(qApp.quit)
+#coding=utf-8
+import sys
+from PyQt4 import QtGui, QtCore
+class Window( QtGui.QWidget ):
+    def __init__( self ):
+        super( Window, self ).__init__()
+        self.setWindowTitle( "TwitterAutoRegister" )
+        self.resize( 500, 200 )
+         
+        gridlayout = QtGui.QGridLayout()
+         
+        button2 = QtGui.QPushButton( "Start" )
+         
+        self.textFile = QtGui.QLineEdit()
+        self.textFile.setText( "https://twitter.com/?lang=ja" )
 
-        qtInfoGUI=QApplication.style().standardIcon(QStyle.SP_TitleBarMenuButton)
-        qtInfoAction = QAction(qtInfoGUI, '&AboutQt', self)        
-        qtInfoAction.setShortcut('Ctrl+I')
-        qtInfoAction.setStatusTip('Show Qt info')
-        qtInfoAction.triggered.connect(qApp.aboutQt)
+        gridlayout.addWidget( self.textFile )
+        gridlayout.addWidget( button2, 1, 1, 1, 3 )
+        self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.startWebKit )
+        self.setLayout( gridlayout )
+    def startWebKit(self):
+        url = self.textFile.text()
+        print(type(str(url)))
+        if  platform.system() == 'Windows':
+            CHROMEDRIVER_PATH = "./chromedriver.exe"
+        else:
+            CHROMEDRIVER_PATH = "./chromedriver"
 
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&Info')
-        fileMenu.addAction(qtInfoAction)
-        fileMenu.addAction(exitAction)
-        menubar.setNativeMenuBar(False) #for mac
-
-        main = MainMenu()
-        self.setCentralWidget(main)        
-        self.setGeometry(300, 300, 300, 200)
-        self.setWindowTitle('TwitterAutoRegisterTool')    
-        self.show()
-        # startWebKit()
-        
-def main():
-    app = QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    main()   
+        driver = webdriver.Chrome(CHROMEDRIVER_PATH)
+        driver.get(str(url))
+        driver.close() 
+app = QtGui.QApplication( sys.argv )
+window = Window()
+window.show()
+app.exec_()
