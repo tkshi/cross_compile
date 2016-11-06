@@ -1,4 +1,4 @@
-#!python
-# coding: utf-8
-
-print("hello world")
+strin = 'gello'
+f = open('text.txt', 'w') 
+f.write(strin) 
+f.close() 
