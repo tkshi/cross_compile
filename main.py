@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+sys.path.insert(0, '../xml')
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
@@ -16,34 +17,30 @@ import platform
 #coding=utf-8
 import sys
 from PyQt4 import QtGui, QtCore
+from main import start
 class Window( QtGui.QWidget ):
     def __init__( self ):
         super( Window, self ).__init__()
         self.setWindowTitle( "TwitterAutoRegister" )
         self.resize( 500, 200 )
-         
+
         gridlayout = QtGui.QGridLayout()
-         
+
         button2 = QtGui.QPushButton( "Start" )
-         
+
         self.textFile = QtGui.QLineEdit()
         self.textFile.setText( "https://twitter.com/?lang=ja" )
 
         gridlayout.addWidget( self.textFile )
         gridlayout.addWidget( button2, 1, 1, 1, 3 )
         self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.startWebKit )
+        # self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.fileOpen )
         self.setLayout( gridlayout )
+    def fileOpen(self):
+        fileName = QtGui.QFileDialog.getOpenFileName(self, 'OpenFile')
+        print(fileName)
     def startWebKit(self):
-        url = self.textFile.text()
-        print(type(str(url)))
-        if  platform.system() == 'Windows':
-            CHROMEDRIVER_PATH = "./chromedriver.exe"
-        else:
-            CHROMEDRIVER_PATH = "./chromedriver"
-
-        driver = webdriver.Chrome(CHROMEDRIVER_PATH)
-        driver.get(str(url))
-        driver.close() 
+        start()
 app = QtGui.QApplication( sys.argv )
 window = Window()
 window.show()

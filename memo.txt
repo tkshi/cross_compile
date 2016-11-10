@@ -1,0 +1,9 @@
+url = self.textFile.text()
+if  platform.system() == 'Windows':
+    CHROMEDRIVER_PATH = "./chromedriver.exe"
+else:
+    CHROMEDRIVER_PATH = "./chromedriver"
+
+driver = webdriver.Chrome(CHROMEDRIVER_PATH)
+driver.get(str(url))
+driver.close()
