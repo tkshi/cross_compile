@@ -22,25 +22,45 @@ class Window( QtGui.QWidget ):
     def __init__( self ):
         super( Window, self ).__init__()
         self.setWindowTitle( "TwitterAutoRegister" )
-        self.resize( 500, 200 )
+        self.resize( 500, 800 )
 
         gridlayout = QtGui.QGridLayout()
 
+        self.tryCount = QtGui.QLineEdit()
+        self.tryCount.setPlaceholderText(u"登録回数 例) 10")
+        gridlayout.addWidget( self.tryCount )
+
+        self.ipAdressForm = QtGui.QLineEdit()
+        self.ipAdressForm.setPlaceholderText(u"TwitterでソーシャルログインするIPアドレス 例) 36.55.241.31")
+        gridlayout.addWidget( self.ipAdressForm )
+
+        button2 = QtGui.QPushButton( u"Twitterファイルを選択" )
+        gridlayout.addWidget( button2 )
+        self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.twitterFileOpen )
+
+        button2 = QtGui.QPushButton( u"Googleファイルを選択" )
+        gridlayout.addWidget( button2 )
+        self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.googleFileOpen )
+
         button2 = QtGui.QPushButton( "Start" )
-
-        self.textFile = QtGui.QLineEdit()
-        self.textFile.setText( "https://twitter.com/?lang=ja" )
-
-        gridlayout.addWidget( self.textFile )
-        gridlayout.addWidget( button2, 1, 1, 1, 3 )
+        gridlayout.addWidget( button2 )
         self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.startWebKit )
-        # self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.fileOpen )
+
         self.setLayout( gridlayout )
-    def fileOpen(self):
+    def twitterFileOpen(self):
         fileName = QtGui.QFileDialog.getOpenFileName(self, 'OpenFile')
-        print(fileName)
+        self.twitter_excel_path = fileName
+
+    def googleFileOpen(self):
+        fileName = QtGui.QFileDialog.getOpenFileName(self, 'OpenFile')
+        self.google_excel_path = fileName
+
     def startWebKit(self):
-        start()
+        APP_IP = str(self.ipAdressForm.text())
+        print(APP_IP)
+        print(self.twitter_excel_path)
+        print(self.google_excel_path)
+        start(APP_IP=APP_IP,TWITTER_SHEET_PATH=self.twitter_excel_path,GOOGLE_SHEET_PATH=self.google_excel_path)
 app = QtGui.QApplication( sys.argv )
 window = Window()
 window.show()
