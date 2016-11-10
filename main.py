@@ -11,6 +11,7 @@ import PyQt4.QtGui as QtGui
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import platform
+from Error import *
 
 
 
@@ -46,6 +47,9 @@ class Window( QtGui.QWidget ):
         gridlayout.addWidget( button2 )
         self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.startWebKit )
 
+        self.Label = QtGui.QLabel('print')
+        gridlayout.addWidget( self.Label )
+
         self.setLayout( gridlayout )
     def twitterFileOpen(self):
         fileName = QtGui.QFileDialog.getOpenFileName(self, 'OpenFile')
@@ -57,10 +61,14 @@ class Window( QtGui.QWidget ):
 
     def startWebKit(self):
         APP_IP = str(self.ipAdressForm.text())
+        try_count = int(self.tryCount.text())
         print(APP_IP)
         print(self.twitter_excel_path)
         print(self.google_excel_path)
-        start(APP_IP=APP_IP,TWITTER_SHEET_PATH=self.twitter_excel_path,GOOGLE_SHEET_PATH=self.google_excel_path)
+        try:
+            start(APP_IP=APP_IP,TWITTER_SHEET_PATH=self.twitter_excel_path,GOOGLE_SHEET_PATH=self.google_excel_path,TRY_COUNT=try_count)
+        except OverTryCountError:
+            self.Label.setText(u"登録完了です")
 app = QtGui.QApplication( sys.argv )
 window = Window()
 window.show()
