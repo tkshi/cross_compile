@@ -18,7 +18,7 @@ from Error import *
 #coding=utf-8
 import sys
 from PyQt4 import QtGui, QtCore
-from main import start
+from Runner import start
 class Window( QtGui.QWidget ):
     def __init__( self ):
         super( Window, self ).__init__()
@@ -54,7 +54,7 @@ class Window( QtGui.QWidget ):
         gridlayout.addWidget( button2 )
         self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.startWebKit )
 
-        self.Label = QtGui.QLabel('')
+        self.Label = QtGui.QLabel('print')
         gridlayout.addWidget( self.Label )
 
         self.setLayout( gridlayout )
