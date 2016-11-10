@@ -35,10 +35,17 @@ class Window( QtGui.QWidget ):
         self.ipAdressForm.setPlaceholderText(u"TwitterでソーシャルログインするIPアドレス 例) 36.55.241.31")
         gridlayout.addWidget( self.ipAdressForm )
 
+
+        self.twitterPathForm = QtGui.QLineEdit()
+        self.twitterPathForm.setPlaceholderText(u"C¥documents¥twitter.xls")
+        gridlayout.addWidget( self.twitterPathForm )
         button2 = QtGui.QPushButton( u"Twitterファイルを選択" )
-        gridlayout.addWidget( button2 )
+        gridlayout.addWidget( button2 ,2,1)
         self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.twitterFileOpen )
 
+        self.googlePathForm = QtGui.QLineEdit()
+        self.googlePathForm.setPlaceholderText(u"C¥documents¥google.xls")
+        gridlayout.addWidget( self.googlePathForm )
         button2 = QtGui.QPushButton( u"Googleファイルを選択" )
         gridlayout.addWidget( button2 )
         self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.googleFileOpen )
@@ -47,7 +54,7 @@ class Window( QtGui.QWidget ):
         gridlayout.addWidget( button2 )
         self.connect( button2, QtCore.SIGNAL( 'clicked()' ), self.startWebKit )
 
-        self.Label = QtGui.QLabel('print')
+        self.Label = QtGui.QLabel('')
         gridlayout.addWidget( self.Label )
 
         self.setLayout( gridlayout )
