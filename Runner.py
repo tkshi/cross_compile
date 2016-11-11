@@ -25,7 +25,7 @@ def start(APP_IP='36.55.241.31',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGL
 		phone_number = grow[2]
 		status = grow[3] if len(grow) == 4 else ''
 		if status == 'error' or grow[0].find('@') == -1:
-			continue
+			pass
 	 	try:
 			for i,trow in enumerate(twitterList):
 				print('index:',i,TRY_COUNT)
@@ -33,7 +33,7 @@ def start(APP_IP='36.55.241.31',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGL
 					raise OverTryCountError()
 				print(trow)
 				if len(trow) == 4 and trow[3] != '':
-					continue
+					pass
 				twitter_id = trow[0]
 				twitter_pass = trow[1]
 				twitter_email = trow[2]
