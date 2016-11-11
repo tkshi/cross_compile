@@ -8,12 +8,12 @@ rows = [
 
 def getSheet(fileName="test.xlsx",sheetName="Accounts"):
 	import xlrd
-	 
+
 	book = xlrd.open_workbook(fileName)
-	 
+
 
 	sheet = book.sheet_by_index(0)
-	 
+
 
 	result = []
 
@@ -38,6 +38,8 @@ def writeSheet(fileName="sample.xls",sheetName="Accounts",rows=rows):
 		else:
 			style = False
 		for i,cell in enumerate(row):
+			if cell =='done' or cell == 'error':
+				continue
 			if style == False:
 				newSheet_1.write(row_i,i,cell)
 			else:

@@ -19,9 +19,11 @@ TWITTER_EMAIL = ""
 
 class SocialLogin:
     def __init__(self,driver,app_ip):
-        LOGIN_URL = "http://{app_ip}/twitter/admin".format(app_ip=app_ip)
+        self.app_ip = app_ip
+        self.LOGIN_URL = "http://{app_ip}/twitter/admin".format(app_ip=app_ip)
+        self.OAUTH_SITE_URL = "http://{app_ip}/twitter/admin/Share/login".format(app_ip=app_ip)
         self.driver = driver
-        self.driver.get(LOGIN_URL)
+        self.driver.get(self.LOGIN_URL)
         elem = self.driver.find_element_by_css_selector('#AdminUsername')
         elem.send_keys(LOGIN_ID)
         elem = self.driver.find_element_by_css_selector('#AdminPassword')
@@ -30,9 +32,10 @@ class SocialLogin:
         elem.click()
 
     def twitterLogin(self):
-        self.driver.get(OAUTH_SITE_URL)
+        self.driver.get(self.OAUTH_SITE_URL)
         elem = self.driver.find_element_by_css_selector('#allow')
         elem.click()
+        sleep(5)
 
 if __name__ == '__main__':
     try:

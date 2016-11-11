@@ -131,7 +131,7 @@ if __name__ == '__main__':
     try:
         tw = Twitter(twitter_id=TWITTER_ID,twitter_pass=TWITTER_PASS,twitter_email=TWITTER_EMAIL)
     except Exception:
-        print('error')
-    # print(tw.getLoginStatus())
+        pass
+    #
     # tw.setLangage()
-    # print(tw.setPhone(phone_number="(843) 471-0879"))
+    #

@@ -75,9 +75,9 @@ class Window( QtGui.QWidget ):
         APP_IP = str(self.ipAdressForm.text())
         try_count = int(self.tryCount.text())
         phone_try_count = int(self.phoneTryCount.text())
-        print(APP_IP)
-        print(self.twitter_excel_path)
-        print(self.google_excel_path)
+
+
+
         try:
             start(APP_IP=APP_IP,TWITTER_SHEET_PATH=self.twitter_excel_path,GOOGLE_SHEET_PATH=self.google_excel_path,TRY_COUNT=try_count,PHONE_TRY_COUNT=phone_try_count)
         except OverTryCountError:
