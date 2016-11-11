@@ -20,11 +20,7 @@ TWITTER_EMAIL = ""
 class SocialLogin:
     def __init__(self,driver,app_ip):
         LOGIN_URL = "http://{app_ip}/twitter/admin".format(app_ip=app_ip)
-        if  platform.system() == 'Windows':
-            CHROMEDRIVER_PATH = "./chromedriver.exe"
-        else:
-            CHROMEDRIVER_PATH = "./chromedriver"
-        self.driver = webdriver.Chrome(CHROMEDRIVER_PATH)
+        self.driver = driver
         self.driver.get(LOGIN_URL)
         elem = self.driver.find_element_by_css_selector('#AdminUsername')
         elem.send_keys(LOGIN_ID)

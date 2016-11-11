@@ -1,6 +1,7 @@
 from Gmail import *
 from SocialLogin import *
 from Twitter import *
+from Error import *
 
 
 
@@ -9,7 +10,14 @@ GMAIL_ADRESS = "frabro568@gmail.com",GMAIL_PASS = "ndagmabry9",PHONE_NUMBER = "(
 
 	tw = Twitter(twitter_id=TWITTER_ID,twitter_pass=TWITTER_PASS,twitter_email=TWITTER_EMAIL)
 	tw.setLangage()
-	tw.setPhone(phone_number=PHONE_NUMBER)
+	tw_driver = tw.getDriver()
+	try:
+		tw.setPhone(phone_number=PHONE_NUMBER)
+	except AlreadyAddedPhoneNumber:
+		sl = SocialLogin(driver=tw_driver,app_ip=APP_IP)
+		sl.twitterLogin()
+		tw.close()
+		raise AlreadyAddedPhoneNumber()
 	gm = Gmail(gmail_adress=GMAIL_ADRESS,gmail_pass=GMAIL_PASS)
 	pin_code = gm.getPinCode()
 	sleep(5)
