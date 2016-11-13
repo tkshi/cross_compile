@@ -21,7 +21,7 @@ from Runner import start
 class Window( QtGui.QWidget ):
     def __init__( self ):
         super( Window, self ).__init__()
-        self.setWindowTitle( "TwitterAutoRegister_ver0.5" )
+        self.setWindowTitle( "TwitterAutoRegister_ver0.6" )
         self.resize( 500, 800 )
 
         gridlayout = QtGui.QGridLayout()
