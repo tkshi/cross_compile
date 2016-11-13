@@ -6,6 +6,7 @@ from Excel import *
 from Register import run
 from Error import *
 from Util import *
+import os
 
 twitterList = getSheet(fileName="./uploads/twitter.xls",sheetName="Accounts")
 googleList = getSheet(fileName="./uploads/gmail.xls",sheetName="Accounts")
@@ -15,9 +16,11 @@ googleList = getSheet(fileName="./uploads/gmail.xls",sheetName="Accounts")
 # 	return True
 
 def start(APP_IP='36.55.241.31',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGLE_SHEET_PATH="./uploads/gmail.xls",TRY_COUNT=10,PHONE_TRY_COUNT=5):
-
+	os.chmod(TWITTER_SHEET_PATH, 0777)
+	os.chmod(GOOGLE_SHEET_PATH, 0777)
 	twitterList = getSheet(fileName=TWITTER_SHEET_PATH,sheetName="Accounts")
 	googleList = getSheet(fileName=GOOGLE_SHEET_PATH,sheetName="Accounts")
+	register_count = 0
 	for gi,grow in enumerate(googleList):
 		if (gi == PHONE_TRY_COUNT):
 			raise PhoneNumberInvalidError()
@@ -29,8 +32,8 @@ def start(APP_IP='36.55.241.31',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGL
 			continue
 	 	try:
 			for i,trow in enumerate(twitterList):
-				if( countLengthRow(rows=twitterList,length=4) == TRY_COUNT):
-					raise OverTryCountError()
+				# if( countLengthRow(rows=twitterList,length=4) == TRY_COUNT):
+				# 	raise OverTryCountError()
 
 				if len(trow) == 4 and trow[3] != '':
 					continue
@@ -40,6 +43,9 @@ def start(APP_IP='36.55.241.31',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGL
 				try:
 					run(TWITTER_ID=twitter_id,TWITTER_PASS=twitter_pass,TWITTER_EMAIL=twitter_email,
 		GMAIL_ADRESS=gmail_id,GMAIL_PASS=gmail_pass,PHONE_NUMBER=phone_number,APP_IP=APP_IP)
+					register_count = register_count + 1
+					if(register_count == TRY_COUNT):
+						raise OverTryCountError()
 					try:
 						trow[3] = "done"
 					except IndexError:
@@ -55,6 +61,9 @@ def start(APP_IP='36.55.241.31',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGL
 							trow[3] = "done"
 						except (IndexError) as e:
 							trow.append("done")
+						register_count = register_count + 1
+						if(register_count == TRY_COUNT):
+							raise OverTryCountError()
 					elif(isinstance(e,CannotRegisterYetError)):
 
 						try:
@@ -71,7 +80,7 @@ def start(APP_IP='36.55.241.31',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGL
 
 
 if __name__ == '__main__':
-	start(APP_IP='182.163.60.59',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGLE_SHEET_PATH="./uploads/gmail.xls",TRY_COUNT=3)
+	start(APP_IP='182.163.60.59',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGLE_SHEET_PATH="./uploads/gmail.xls",TRY_COUNT=1)
 
 
 # writeSheet(fileName="./uploads/gmail_out.xls",sheetName='Accounts',rows=gmailResult)

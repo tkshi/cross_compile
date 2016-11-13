@@ -31,7 +31,7 @@ def writeSheet(fileName="sample.xls",sheetName="Accounts",rows=rows):
 	newSheet_1 = book.add_sheet(sheetName)
 
 	for row_i,row in enumerate(rows):
-		if 'error' in row:
+		if 'error' in row or 'done' in row:
 			xlwt.add_palette_colour("custom_colour", 0x21)
 			book.set_colour_RGB(0x21, 251, 228, 228)
 			style = xlwt.easyxf('pattern: pattern solid, fore_colour custom_colour')
