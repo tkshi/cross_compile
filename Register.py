@@ -22,7 +22,10 @@ GMAIL_ADRESS = "frabro568@gmail.com",GMAIL_PASS = "ndagmabry9",PHONE_NUMBER = "(
 	pin_code = gm.getPinCode()
 	sleep(5)
 	tw.setPINKey(pin_code=pin_code)
-
+	if(tw.checkMobile() == False):
+		tw.close()
+		gm.close()
+		raise PhoneNumberInvalidError()
 	driver = tw.getDriver()
 	sl = SocialLogin(driver=driver,app_ip=APP_IP)
 	sl.twitterLogin()

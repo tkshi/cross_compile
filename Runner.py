@@ -80,7 +80,7 @@ def start(APP_IP='36.55.241.31',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGL
 
 
 if __name__ == '__main__':
-	start(APP_IP='182.163.60.59',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGLE_SHEET_PATH="./uploads/gmail.xls",TRY_COUNT=1)
+	start(APP_IP='182.163.60.59',TWITTER_SHEET_PATH="./uploads/twitter.xls",GOOGLE_SHEET_PATH="./uploads/gmail.xls",TRY_COUNT=10)
 
 
 # writeSheet(fileName="./uploads/gmail_out.xls",sheetName='Accounts',rows=gmailResult)

@@ -7,14 +7,10 @@ from time import sleep
 from Error import *
 import platform
 
-TWITTER_ID = "rogovaevseviya1"
-TWITTER_PASS = "HxC7pICH1w"
-TWITTER_EMAIL = "RogovaEvseviya95@bk.ru"
+TWITTER_ID = "AnfiskaPestova"
+TWITTER_PASS = "FLvdVLGGB0"
+TWITTER_EMAIL = "pestova_anfiska@mail.ru"
 
-
-# TWITTER_ID = "denisovafloren9"
-# TWITTER_PASS = "sJjwfQwRa6"
-# TWITTER_EMAIL = "DenisovaFlorensa1983@mail.ru"
 
 class Twitter:
     def __init__(self,twitter_id,twitter_pass,twitter_email):
@@ -88,7 +84,13 @@ class Twitter:
         elem.send_keys(self.twitter_pass)
         elem = self.driver.find_element_by_css_selector('#save_password')
         elem.click()
-
+    def checkMobile():
+        self.driver.get('https://twitter.com/settings/add_phone')
+        try:
+            elem = self.driver.find_element_by_css_selector('#sms-phone-delete-form > div > h3')
+            return True
+        except NoSuchElementException as e:
+            return False
 
     def setPhone(self,phone_number="0000"):
         self.driver.get('https://twitter.com/settings/add_phone')
@@ -113,7 +115,7 @@ class Twitter:
             elem = self.driver.find_element_by_css_selector('#settings-alert-box > h4')
             if(elem.text == u'試行回数の制限を超えました。しばらくしてからもう一度お試しください。'):
                 self.close()
-                raise CannotRegisterYetError
+                raise TwitterLoginError()
             self.close()
             raise PhoneNumberInvalidError
         except NoSuchElementException:
@@ -131,6 +133,7 @@ class Twitter:
 if __name__ == '__main__':
     try:
         tw = Twitter(twitter_id=TWITTER_ID,twitter_pass=TWITTER_PASS,twitter_email=TWITTER_EMAIL)
+        tw.setLangage()
     except Exception:
         pass
     #
