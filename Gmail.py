@@ -27,6 +27,10 @@ class Gmail:
         elem.send_keys(gmail_pass)
         sleep(2)
         elem = self.driver.find_element_by_css_selector('#signIn').click()
+        try:
+            elem = self.driver.find_element_by_css_selector('#yDmH0d > form > div > content > div > div.gS51df > div > div > content > span').click()
+        except NoSuchElementException:
+            pass
 
     def close(self):
         self.driver.close()
@@ -41,17 +45,17 @@ class Gmail:
                 break
         elems = self.driver.find_element_by_css_selector('body')
         pin_code = ""
-        
+
         if(isinstance(elems.text, unicode)):
             text = elems.text.encode('utf-8')
 
-        
+
         pattern = r"Twitter認証コードは([0-9]*)です"
         repatter = re.compile(pattern)
         matchOB = repatter.findall(text)
-        
+
         if len(matchOB) > 0:
-            
+
             pin_code = matchOB[-1]
         return pin_code
     # self.driver.switch_to_window(driver.window_handles[-1])
