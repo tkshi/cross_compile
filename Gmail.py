@@ -22,18 +22,17 @@ class Gmail:
         elem = self.driver.find_element_by_css_selector('#Email')
         elem.send_keys(gmail_adress)
         elem = self.driver.find_element_by_css_selector('#next').click()
-        sleep(0.5)
+        sleep(2)
         elem = self.driver.find_element_by_css_selector('#Passwd')
         elem.send_keys(gmail_pass)
-        sleep(0.5)
+        sleep(2)
         elem = self.driver.find_element_by_css_selector('#signIn').click()
-        sleep(3)
 
     def close(self):
         self.driver.close()
 
     def getPinCode(self):
-        sleep(2)
+        sleep(10)
         elems = self.driver.find_elements_by_css_selector('span')
         for e in elems:
             if e.text == '40404':
@@ -59,4 +58,5 @@ class Gmail:
 
 if __name__ == '__main__':
     gm = Gmail(gmail_adress=GMAIL_ADRESS,gmail_pass=GMAIL_PASS)
-    
+    print(gm.getPinCode())
+    gm.close()
