@@ -31,6 +31,7 @@ class Twitter:
         self.driver.get("https://twitter.com/login")
         elem = self.driver.find_element_by_css_selector('#page-container > div > div.signin-wrapper > form > fieldset > div:nth-child(2) > input')
         elem.send_keys(self.twitter_id)
+        sleep(2)
         elem = self.driver.find_element_by_css_selector('#page-container > div > div.signin-wrapper > form > fieldset > div:nth-child(3) > input')
         elem.send_keys(self.twitter_pass)
         elem = self.driver.find_element_by_css_selector('#page-container > div > div.signin-wrapper > form > div.clearfix > button')
